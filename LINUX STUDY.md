@@ -108,36 +108,55 @@
 			* 동작 과정: 사용자는 파일이름으로 파일에 ACTION => 디렉토리 블록에서 해당 파일 INODE 리턴 => INODE 테이블에 저장된 파일의 실제주소를 통하여 파일을 불러온다.
 			
 3. 리눅스 관리자용 명령어
+***
 	1. RPM
-	- 개념 : RedHat PACKAGE MANAGER, 설치 파일 ( .rpm ) 을 실행.
-	- 특징
-		- RPM 파일 이름 형식 : 패키지이름-버전-릴리즈번호.CentOS버전.아키텍처.rpm
-		- DNF(yum)에 비해, 패키지 내 의존성 문제가 발생 시, 파악 및 설치가 어렵다.
-	- 주요 명령어
-		- 설치 : rpm -Uvh 패키지명 : U ( 설치 or 업데이트 ) / v ( 설치과정 확인 ) / h (설치 진행 과정 출력 )
-		- 삭제 : rpm -e 패키지명
-		- 설치된 패키지 조회 : rpm [ -qa(설치여부) | -ql(포함파일확인) | -qi(상세정보) ] [ 패키지명 ] 
-		- 미설치된 패키지 상세 조회 : rpm -qip 패키지명
-	
+		1. 개념 : RedHat PACKAGE MANAGER, 설치 파일 ( .rpm ) 을 실행.
+		2. 특징
+			- RPM 파일 이름 형식 : 패키지이름-버전-릴리즈번호.CentOS버전.아키텍처.rpm
+			- DNF(yum)에 비해, 패키지 내 의존성 문제가 발생 시, 파악 및 설치가 어렵다.
+		3. 주요 명령어
+			- 설치 : rpm -Uvh 패키지명 : U ( 설치 or 업데이트 ) / v ( 설치과정 확인 ) / h (설치 진행 과정 출력 )
+			- 삭제 : rpm -e 패키지명
+			- 설치된 패키지 조회 : rpm [ -qa(설치여부) | -ql(포함파일확인) | -qi(상세정보) ] [ 패키지명 ] 
+			- 미설치된 패키지 상세 조회 : rpm -qip 패키지명
+***
 	2. DNF(YUM)
-	- 구조
-	- 개념 : RPM의 의존성 문제를 해결하는 상위호환 패키지 매니저.
-	- 특징
-		- RPM 패키지를 설치, 의존성 있을 시 필요한 의존성까지 자동으로 설치
-		- RPM 패키지 저장소 설정 필요
-	
-	- 주요 명령어
-		- 설치 
-			- dnf -y --nogpgcheck install [ 패키지명 ] : 설치과정 중 모든대답 Y / GPG 키 검사 생략
-			- dnf install [ rpm파일이름.rpm ]
-		- 업데이트 : dnf check-update / dnf update [ 패키지명 ]
-		- 삭제 : dnf remove  [ 패키지명 ] / dnf clean all ( 모든 패키지 삭제 )
-		- 조회 : 
-			- dnf list [ available | 패키지명 ] : 설치가능한 / 해당 패키지 목록 조회
-			- dnf info [ 패키지명 ] : 패키지 정보 확인
-			- dnf provides [파일] : 해당파일 속한 패키지 출력 ( ex: dnf provides ifconfig )
-	
+		1. 개념 : RPM의 의존성 문제를 해결하는 상위호환 패키지 매니저.
+		2. 특징
+			- RPM 패키지를 설치, 의존성 있을 시 필요한 의존성까지 자동으로 설치
+			- RPM 패키지 저장소 설정 필요
+		3. DNF 명령 작동 흐름도
+			> DNF INSTALL -> /etc/yum.repos.d/ 디렉토리 패키지 저장소 URL 확인 -> 패키지 저장소 탐색 및 다운로드
+		4. 주요 명령어
+			- 설치 
+				- dnf -y --nogpgcheck install [ 패키지명 ] : 설치과정 중 모든대답 Y / GPG 키 검사 생략
+				- dnf install [ rpm파일이름.rpm ]
+			- 업데이트 : dnf check-update / dnf update [ 패키지명 ]
+			- 삭제 : dnf remove  [ 패키지명 ] / dnf clean all ( 모든 패키지 삭제 )
+			- 조회 : 
+				- dnf list [ available | 패키지명 ] : 설치가능한 / 해당 패키지 목록 조회
+				- dnf info [ 패키지명 ] : 패키지 정보 확인
+				- dnf provides [파일] : 해당파일 속한 패키지 출력 ( ex: dnf provides ifconfig )
+		5. repo 파일 형식
+		```
+		[DVD-BaseOS]
+		name=CentOS DVD
+		baseurl=file:///media/cdrom/BaseOS/
+		gpgcheck=0
+		
+		[BaseOS]
+		name=CentOS-$releasever - Base
+		baseurl="http|ftp|file 형식 URL 주소"
+		mirrorlist="대체 URL주소 : baseurl이 없을 시 mirrorlist 사용"
+		enabled=1 // 이 저장소 사용
+		gpgcheck=0 // 체크 안한다.
+		```
+		
+***
 	3. 파일 압축 & 해제
+	
+	
+		
 	4. 파일 위치 검색
 	5. 시스템 설정
 	6. CRON & AT
