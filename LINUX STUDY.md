@@ -26,7 +26,7 @@
 
 ## 리눅스
 * 리눅스의 디렉토리 구조
-	> <a href="#"><img src="https://lh3.googleusercontent.com/proxy/5KKhjUiKMAUn3CfPOUZBOR1s84oxEO5oqadybu5Rku2Jkm6beDRLe4NDFE4JhO_Iog5n-QkmKtKTBqIJIxFMWKn7Qp7eTFJhZueHvjVYDxIM2zXkVW7zwoFjJAyCfDAxurDYu_bvup3D29-rHg8RM_dhwD7jFlaxMsZ8qQD7Iu5KOM9xPThvdHVxd5EuhLkubg"></a>
+> <a href="#"><img src="https://www.google.com/url?sa=i&url=http%3A%2F%2Fm.blog.naver.com%2Fhenry_23%2F20143047303&psig=AOvVaw2yhmaP7CVxK2xCHueXDZvE&ust=1600825769968000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDG4-3S--sCFQAAAAAdAAAAABAD"></a>
 	
 * 정의
 	* 유닉스 기반 ( POSIX 표준 ) 오픈소스 운영체제
@@ -55,7 +55,7 @@
 	10. 다양한 배포판의 존재
 		*  리눅스는 서버, 개발용, PC용 등 다양한 목적으로 사용 가능하고, 이에 따른 다양한 배포판이 존재한다. 국외에는 레드햇(Redhat), 데비안(Debian), 우분투(Ubuntu), 수세(SUSE) 등이 있고, 국내에는 한컴리눅스, SULinux 등이 있다.
 		
-### 리눅스 주요개념
+### 리눅스 주요개념과 
 1. 사용자와 그룹
 	* 개념
 		* 리눅스는 멀티유저 시스템으로, 사용자의 권한을 제어 및 관리할 수 있다.
@@ -106,6 +106,40 @@
 			* inode는 리눅스 파일시스템에서 사용하는 자료구조.
 			* 디렉토리 정보, 심볼릭 링크 개수, 파일 사이즈, **실제 파일 데이타블록**의 주소 등 메타데이타를 가지고 있다.
 			* 동작 과정: 사용자는 파일이름으로 파일에 ACTION => 디렉토리 블록에서 해당 파일 INODE 리턴 => INODE 테이블에 저장된 파일의 실제주소를 통하여 파일을 불러온다.
-
+			
+3. 리눅스 관리자용 명령어
+	1. RPM
+	- 개념 : RedHat PACKAGE MANAGER, 설치 파일 ( .rpm ) 을 실행.
+	- 특징
+		- RPM 파일 이름 형식 : 패키지이름-버전-릴리즈번호.CentOS버전.아키텍처.rpm
+		- DNF(yum)에 비해, 패키지 내 의존성 문제가 발생 시, 파악 및 설치가 어렵다.
+	- 주요 명령어
+		- 설치 : rpm -Uvh 패키지명 : U ( 설치 or 업데이트 ) / v ( 설치과정 확인 ) / h (설치 진행 과정 출력 )
+		- 삭제 : rpm -e 패키지명
+		- 설치된 패키지 조회 : rpm [ -qa(설치여부) | -ql(포함파일확인) | -qi(상세정보) ] [ 패키지명 ] 
+		- 미설치된 패키지 상세 조회 : rpm -qip 패키지명
+	
+	2. DNF(YUM)
+	- 구조
+	- 개념 : RPM의 의존성 문제를 해결하는 상위호환 패키지 매니저.
+	- 특징
+		- RPM 패키지를 설치, 의존성 있을 시 필요한 의존성까지 자동으로 설치
+		- RPM 패키지 저장소 설정 필요
+	
+	- 주요 명령어
+		- 설치 
+			- dnf -y --nogpgcheck install [ 패키지명 ] : 설치과정 중 모든대답 Y / GPG 키 검사 생략
+			- dnf install [ rpm파일이름.rpm ]
+		- 업데이트 : dnf check-update / dnf update [ 패키지명 ]
+		- 삭제 : dnf remove  [ 패키지명 ] / dnf clean all ( 모든 패키지 삭제 )
+		- 조회 : 
+			- dnf list [ available | 패키지명 ] : 설치가능한 / 해당 패키지 목록 조회
+			- dnf info [ 패키지명 ] : 패키지 정보 확인
+			- dnf provides [파일] : 해당파일 속한 패키지 출력 ( ex: dnf provides ifconfig )
+	
+	3. 파일 압축 & 해제
+	4. 파일 위치 검색
+	5. 시스템 설정
+	6. CRON & AT
 
 
