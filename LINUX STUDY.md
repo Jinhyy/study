@@ -25,14 +25,14 @@
 		* CPU 처리를 효과적으로 관리
 
 ## 리눅스
-* 리눅스의 디렉토리 구조
+1. 리눅스의 디렉토리 구조
 > <a href="#"><img src="https://www.google.com/url?sa=i&url=http%3A%2F%2Fm.blog.naver.com%2Fhenry_23%2F20143047303&psig=AOvVaw2yhmaP7CVxK2xCHueXDZvE&ust=1600825769968000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDG4-3S--sCFQAAAAAdAAAAABAD"></a>
 	
-* 정의
+2. 정의
 	* 유닉스 기반 ( POSIX 표준 ) 오픈소스 운영체제
-* 목적
+3. 목적
 	* 오픈소스 운영체제
-* 특징 및 주요개념
+4. 특징 및 주요개념
 	1. 다중 사용자 및 다중 처리 시스템
 		*  하나의 시스템에 다수의 사용자들이 동시에 접속하여 사용할 수 있고(Multi-User), 각 접속자들은 다수의 응용 프로그램을 실행할 수 있다.(Multitasking)
 	2. 완전히 공개된 시스템
@@ -57,14 +57,14 @@
 		
 ### 리눅스 주요개념과 
 1. 사용자와 그룹
-	* 개념
+	1. 개념
 		* 리눅스는 멀티유저 시스템으로, 사용자의 권한을 제어 및 관리할 수 있다.
-	* 관련 파일
+	2. 관련 파일
 		* /etc/passwd : 사용자명:암호:사용자ID:그룹ID:전체이름:홈디렉토리:기본셸
 		* /etc/group  : 그룹이름:비밀번호:그룹ID:사용자명
 		* /etc/shadow : 사용자명:패스워드:패스워드 수정일:패스워드 변경 최소일:패스워드 변경 최대일:패스워드 만료 경고기간:패스워드 파기 후 계정비활성 기간:계정만료기간:예약필드
 			* root:$1$9L2L0oTwd:12751:0:99999:7 : : :
-	* 관련 명령어
+	3. 관련 명령어
 		* groups / groupadd / groupmod / groupdel / gpasswd
 		* useradd / usermod / userdel 
 		* passwd / change 
