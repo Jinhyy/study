@@ -55,7 +55,35 @@
 	10. 다양한 배포판의 존재
 		*  리눅스는 서버, 개발용, PC용 등 다양한 목적으로 사용 가능하고, 이에 따른 다양한 배포판이 존재한다. 국외에는 레드햇(Redhat), 데비안(Debian), 우분투(Ubuntu), 수세(SUSE) 등이 있고, 국내에는 한컴리눅스, SULinux 등이 있다.
 		
-### 리눅스 주요개념과 
+### 리눅스 주요개념과 명령어
+0. 기본 명령어
+	1. 종료 
+		-shutdown P +10 ( 10분후 종료 ) / shutdown -r 22:00 ( 오후 10시에 재부팅 ) / shutdown -c ( 예약된 shutdown 취소 ) / shutdown -k +15 (15분후 종료된다는 메시지 보냄, 실		제로는 종료 X )
+	2. 재부팅
+		- reboot / shutdown -r now / init 6
+	3. 로그아웃
+		- logout / exit
+	4. 가상 콘솔 전환
+		- CTRL + ALT + F1 ~ F6
+	5. 런레벨
+		- 개요     : 시스템이 가동되는 방법, init 명령어 뒤에 인자로 사용한다. ( init 6 재부팅수행 )
+		- 종류     : 0 종료 / 1 복구모드 / 2~4 Multi-user(텍스트모드) / 5 Graphical / 6 Reboot
+		- 관련파일 : /lib/systemd/system/runlevel?.target (런레벨 목록),  /etc/systemd/system/default.target ( 현재 시스템 런레벨 )
+	
+	6. 에디터 ( vi )
+		- 행 이동   : gg ( 첫째 ) / G ( 끝 )
+		- 다음 화면 : ^ ( 첫 ) / $ ( 끝 )
+		- 복사 / 붙여넣기 : (숫자)yy 숫자만큼 행 복사 / p, P 붙여넣기
+		- 찾기 : /검색문자열  / n ( 찾은 문자 이동 )
+		
+	7. 도움말 : man
+	
+	8. 마운트 ( CD / DVD / USB )
+		- 개요   : 실제 장치를 리눅스 내 폴더와 연결시키는 과정
+		- 실습 명령어
+			- mount 명령어로 현재 마운트 장치 확인
+			- umount /dev/(장치명) 으로 해당장치 연결 해제
+		
 1. 사용자와 그룹
 	1. 개념
 		* 리눅스는 멀티유저 시스템으로, 사용자의 권한을 제어 및 관리할 수 있다.
@@ -108,7 +136,7 @@
 			* 동작 과정: 사용자는 파일이름으로 파일에 ACTION => 디렉토리 블록에서 해당 파일 INODE 리턴 => INODE 테이블에 저장된 파일의 실제주소를 통하여 파일을 불러온다.
 			
 3. 리눅스 관리자용 명령어
-***
+	***
 	1. RPM
 		1. 개념 : RedHat PACKAGE MANAGER, 설치 파일 ( .rpm ) 을 실행.
 		2. 특징
@@ -119,7 +147,7 @@
 			- 삭제 : rpm -e 패키지명
 			- 설치된 패키지 조회 : rpm [ -qa(설치여부) | -ql(포함파일확인) | -qi(상세정보) ] [ 패키지명 ] 
 			- 미설치된 패키지 상세 조회 : rpm -qip 패키지명
-***
+	***
 	2. DNF(YUM)
 		1. 개념 : RPM의 의존성 문제를 해결하는 상위호환 패키지 매니저.
 		2. 특징
@@ -143,7 +171,7 @@
 		name=CentOS DVD
 		baseurl=file:///media/cdrom/BaseOS/
 		gpgcheck=0
-		
+
 		[BaseOS]
 		name=CentOS-$releasever - Base
 		baseurl="http|ftp|file 형식 URL 주소"
@@ -153,12 +181,73 @@
 		```
 		
 ***
-	3. 파일 압축 & 해제
-	
-	
-		
+	3. 파일 압축 & 해제		
 	4. 파일 위치 검색
 	5. 시스템 설정
 	6. CRON & AT
 
+***
+
+4. 네트워크 관련 설정과 명령어
+	1. 네트워크 필수개념
+		- TCP/IP , 호스트/도메인 명, IP / 네트워크 / 브로드캐스트 / 게이트웨이 주소 / 넷마스크와 클래스 / DNS 서버주소
+	2. 리눅스에서 네트워크 장치
+		- 랜 카드(NIC)는 리눅스에서 eth0, eth1, ens160 등의 이름으로 인식된다.
+	3. 주요 명령어
+		- nmtui	
+			- 자동 IP 주소 혹은 고정 IP주소 사용 설정
+			- IP주소, 서브넷 마스크, 게이트웨이 정보 입력
+			- DNS 정보 입력
+			- 네트워크 카드 드라이버 설정
+			- 네트워크 장치 설정
+			- systemctl [start/stop/restart/status] NetworkManager ( 네트워크 설정 변경 내용 적용 )
+		- ifup ( 장치가동) / ifdown (장치중지) / ifconfig ( 장치확인 ) [ 네트워크 장치명 ]
+		- nslookup : DNS 서버 작동 확인
+		- ping IP/URL : 해당 IP/URL의 네트워크 응답 확인
+	
+	4. 주요 파일
+		- /etc/sysconfig/network : 네트워크 기본 정보 및 네트워크 사용여부 확인
+		- /etc/sysconfig/network-scripts/ifcfg-[장치명] : 장치 설정 확인
+		- /etc/resolv.conf : DNS 서버 및 호스트 정보 확인
+		- /etc/hosts : 호스트이름 및 FQDN(호스트+도메인명) 확인
+		
+	5. SELinux
+		- 개요 : 보안에 영향을 미치는 서비스, 권한등을 제어 하는 프로그램
+		** todo: 깊이 다루기
+	
+***
+5. 파이프, 필터, 리다이렉션
+	- 파이프 : 여러 프로그램(명령어)을 연결하는 연결통로
+	- 리디렉션 : 표준 입출력 방향을 변경
+	- '|' , '>', '>>' (기존 파일 있으면 append)
+***
+6. 프로세스, 데몬, 서비스
+	- 주요개념 : PID, 작업번호 / 부모,자식프로세스 / 포그라운드 프로세스 / 데몬 = 서비스(백그라운드 프로세스) /
+	- 주요명령어 : pstree , ps, kill, jobs(백그라운드 확인), CTRL+Z(일시중지), bg(백그라운드 전환), fg(포그라운드 전환), CTRL+C(종료)
+
+***
+7. 서비스와 소켓
+	1. 서비스
+		- 개요       : 시스템과 독자적으로 제공, 구동되는 프로세스. ( httpd, mysqld, vsftpd )
+		- 주요 명령어 : systemctl [ start / stop / restart / status / enable / disable ] 서비스이름 / systemctl list-unit-files ( 서비스 부팅시 자동구동 및 상태 확인 )
+		- 주요 서비스 : journalctl ( 서비스 로그 확인 ), 
+		- 관련 파일  : /usr/lib/systemd/system/서비스명.service
+		> <a href="#"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile26.uf.tistory.com%2Fimage%2F993A493F5B0151991DF859"></a>
+		- 서비스 관련 설명 링크 : https://victorydntmd.tistory.com/215
+		
+	2. 소켓
+		> <a href="#"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcSH8fU%2FbtqvxsTPQ2E%2Fpnl61uUJOAPdf73whDlTW0%2Fimg.png"></a>
+		- 개요     :외부에서 특정 서비스를 요청할 경우 systemd가 구동시키는 프로세스. 요청이 끝나면 socket도 종료된다. ( telnet )
+		- 관련 파일 : /usr/lib/systemd/system/소켓명.socket
+
+***
+8. Grub & 시스템 복구
+
+***
+9.커널 컴파일
+
+***
+
+		
+	
 
