@@ -67,7 +67,7 @@
             - tcpdump -i eth0 -w dump_test.log => eth0 이더넷 덤프를 dump_test.log 파일로 저장
             - tcpdump -r dump_test.log => dump_test.log 덤프 파일을 확인
             - tcpdump -i eth0 -c 10 => eth0 이더넷 패킷 10개만 덤프
-            - tcpdump -i eth0 tcp port 8080 => eth0 이더넷의 8080 포트 패킷을 덤프
+            - tcpdump -i eth0 tcp port 80 | grep "GET /"=> eth0 이더넷 80포트에 /GET 으로 들어온 패킷 덤프
             - tcpdump -i eth0 tcp port 8080 and host 192.168.0.100 => eth0 이더넷의 ip는 192.168.0.100 port는 8080 의 패킷을 덤프
         - [ 주요 옵션]
             1. -i (이더넷명)
@@ -75,8 +75,34 @@
             3. -r : 덤프 패킷 헤드를 지정한 파일 확인
             4. -c : 캡쳐 갯수
             5. -s 1500 : 패킷의 전체길이 의미(모든 패킷 캡쳐)
-            6. tcp port : 덤프할 포트 지정
+            6. port : 덤프할 포트 지정
             7. host : 덤프할 host 지정
             > 출처: https://arrkaize86.tistory.com/entry/리눅스-tcpdump-명령어 [송군함대]
 
 # HTTP 프로토콜
+1. HTTP 프로토콜 개요
+    1. HTTP 1.0 : 거래 당 매번 TCP 연결수립 후 해제
+    2. HTTP 1.1 : 연결 유지 기능 추가. ( Connection 헤더, Keep-Alive )
+    3. HTTP 2.0 : 
+    4. 요청 및 응답 프로토콜 구조
+    > <a href="#"><img src="https://lh3.googleusercontent.com/proxy/HfNBiweGakLdsNa0zHbp1NAXQ8yn2syyfT_gPCG_wol9ed1jp0N1dHfla3DwIMVYVHPh0Imr6GbKoQEcehod7idb8A"></a>
+   
+2. 요청 프로토콜
+    > <a href="#"><img src="https://lh3.googleusercontent.com/proxy/I-a1XXsN92z6PxvyJuxc_OJOEZB4yXM4Je6_ytGRhILjOKbZVFPJuD0LLkXW0ivvrOShZF7cPcE0P3_6uj5jus6-ISNCXvL2t-p0QUbzzQgJzMMtCQsQ5kt-GDK8gNBNK4Ig1Lc1hwkGF7MoWy3aRsyRDLwSO1nnSXXIk_feXPND9fad9MkK"></a>
+    1. Request Line: METHOD / 공백 / URL / 공백 / HTTP 버전
+    2. HEADER ( 일반, 요청 , 항목 헤더 )
+    3. 공백
+    4. BODY
+
+3. 응답 프로토콜
+    > <a href="#"><img src="https://media.vlpt.us/images/dnjscksdn98/post/42caeb0f-83f0-41e3-bfc7-ad169dbed518/http_response.png"></a>
+    1. Status Line : HTTP버전 / 공백 / 상태코드 / 공백 / 상태문구 
+    2. HEADER ( 일반, 응답 , 항목 헤더 )
+    3. 공백
+    4. BODY
+
+4. HTTP 헤더
+    1. 일반 : DATE , Connection ( TCP 커넥션 연결유지 여부 ), Cache-Control ( 캐시 수명, Etag-캐시ID ), Pragma, Trailer
+    2. 항목 : Content-Type, Content-Language, Content-Dispoistion ( 응답 Body를 어떤식으로 표시 할 것인가 )
+    3. 요청 : Host(1.1에서 필수), User-Agent, Cookie, Referer( 직전에 머물렀던 웹링크 주소 ), Authorization, Origin ( 요청 시작 주소 )
+    4. 응답 : Server, Set-Cookie ( 서버측에서 클라이언트에게 세션쿠키 정보 설정 ), Expires ( 리소스 유효기간 ), Allow ( 허용메소드 리스트 ), Access-Control-Allow-Origin( 서버측에서 이곳에 프론트단 주소를 적어야 CORS 에러 발생 X )
