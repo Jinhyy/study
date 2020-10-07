@@ -65,11 +65,13 @@
 		- logout / exit
 	4. 가상 콘솔 전환
 		- CTRL + ALT + F1 ~ F6
-	5. 런레벨
+		
+	5. 런레벨 ( centos 7 이전 버전의 리눅스 부팅 환경 관련 개념 )
 		- 개요     : 시스템이 가동되는 방법, init 명령어 뒤에 인자로 사용한다. ( init 6 재부팅수행 )
-		- 종류     : 0 종료 / 1 복구모드 / 2~4 Multi-user(텍스트모드) / 5 Graphical / 6 Reboot
+		- 종류     : 0 종료 / 1 복구모드 / 2~3 Multi-user(텍스트모드) / 4 사용X / 5 Graphical / 6 Reboot
 		- 관련파일 : /lib/systemd/system/runlevel?.target (런레벨 목록),  /etc/systemd/system/default.target ( 현재 시스템 런레벨 )
-	
+		- 관련 명령어 : init
+
 	6. 에디터 ( vi )
 		- 행 이동   : gg ( 첫째 ) / G ( 끝 )
 		- 다음 화면 : ^ ( 첫 ) / $ ( 끝 )
@@ -109,9 +111,13 @@
 		2. 특징
 			* 시스템에 공통적인 인증방법 제공가능
 			* 필요한 모듈만 부분적으로 설치 가능
-		3. 모듈 구조
+		3. PAM 설정파일 구성요소
+			1. module_type : auth (인증) / account(계정관리) / password / session ( 인증 전후 수행되어야할 작업지정 ) 
+			2. config_flag : required / requsite / sufficient ( 이모듈만 성공하면 OK ) / optional / include
+			3. Module_path : /usr/lib64/security 내 사용할 모듈이름 지정
+			4. Module_argument : 모듈에 전달하는 매개변수값, debug(시스템로그에 디버그정보 저장), no_warn(경고메시지 보내지않음)
+		4. PAM 관련 파일 : /etc/pam.d/su, pwd, sshd
 		
-
 ---
 2. 파일 / 디렉토리
 	1. 파일 및 디렉토리란
@@ -199,7 +205,17 @@
 ***
 	3. 파일 압축 & 해제		
 	4. 파일 위치 검색
-	5. 시스템 설정
+	
+	---
+	5. 시스템 설정 ( systemd )
+		- 개요
+			- unit이라는 구성요소로 전체 시스템을 시작하고 관리하는 프로세스 /  
+			- systemd는 관리대상의 이름을 '서비스이름.유닛종류' 형태로 관리
+		- 유닛의 종류
+			> <a href="#"><img src="https://blog.kakaocdn.net/dn/bBykuV/btqxPSbTLkF/nUKxCDHk0GwsRf42IkHVF1/img.png"></a>
+		- 주요 유닛
+			- atd.service : 예약 작업
+			- get-default : 부팅 모드 설정	
 	6. CRON & AT
 
 ***
@@ -220,6 +236,7 @@
 		- ifup ( 장치가동) / ifdown (장치중지) / ifconfig ( 장치확인 ) [ 네트워크 장치명 ]
 		- nslookup : DNS 서버 작동 확인
 		- ping IP/URL : 해당 IP/URL의 네트워크 응답 확인
+		- route : 외부 대역과 통신 시 필요한 게이트웨이 정보를 확인 및 설정
 	
 	4. 주요 파일
 		- /etc/sysconfig/network : 네트워크 기본 정보 및 네트워크 사용여부 확인
@@ -264,6 +281,15 @@
 
 ***
 
-		
-	
-
+10. 리눅스 로그
+	1. 종류
+	> <a href="#"><img src="https://11q.kr/g5s/data/editor/1905/thumb-3232235521_1556728625.2615_800x673.png"></a>
+	2. rsyslog
+		1. 개요 : 시스템로그를 관리하는 서비스
+		2. 관련파일 : /etc/rsyslog.conf
+		3. syslog 파일 형식
+			- [Facility].[Level] 	[Action]
+				- Facility : 어떤 것들을 로그로 남길지 설정 ( kern, user, mail, daemon, auth, syslog, cron, ... )
+				- Level    : 로그레벨 설정 ( emerge, alert, crit, err, warning, ... )
+				- Action   : 어디에 저장할지 ( ex: /var/log/cron )
+				
