@@ -26,7 +26,7 @@
 
 ## 리눅스
 1. 리눅스의 디렉토리 구조
-> <a href="#"><img src="https://www.google.com/url?sa=i&url=http%3A%2F%2Fm.blog.naver.com%2Fhenry_23%2F20143047303&psig=AOvVaw2yhmaP7CVxK2xCHueXDZvE&ust=1600825769968000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDG4-3S--sCFQAAAAAdAAAAABAD"></a>
+> <a href="#"><img src="https://raw.githubusercontent.com/lee-seul/lee-seul.github.com/master/static/img/_posts/linux_directory_structure.png"></a>
 	
 2. 정의
 	* 유닉스 기반 ( POSIX 표준 ) 오픈소스 운영체제
@@ -44,7 +44,6 @@
 	5. 뛰어난 이식성
 		*  리눅스는 약간의 어셈브리와 대부분의 C언어로 작성되어 있다. C를 컴파일 할 수 있으며, 어셈블리 부분만 새롭게 만들고 C부분을 다시 컴파일 함으로써 쉽게 다른 시스템에 이식 할 수 있다.
 	6. 유연성과 확장성
-
 		*  리눅스는 상업용 유닉스(UNIX)의 모든 특성을 가지며 유닉스의 표준인 포직스(POSIX)를 준수하고 있다. 커널, 장치드라이버, 라이브러리, 응용프로그램, 개발도구 등 리눅스의 원시코드를 쉽게 접할 수 있다.
 	7. 뛰어난 안전성과 보안성
 		*  리눅스는 커널 소스가 공개되어 있어 Windows와 같은 폐쇄형 운영체제에 비해 보안상의 취약점이 쉽게 노출된 가능성은 있으나, 공개용 소프트웨어를 지지하는 수많은 전문 프로그래머들이 상용 운영체제보다 빠르게 오류 수정과 보안 관련된 패치를 발표하고 있다.
@@ -55,6 +54,7 @@
 	10. 다양한 배포판의 존재
 		*  리눅스는 서버, 개발용, PC용 등 다양한 목적으로 사용 가능하고, 이에 따른 다양한 배포판이 존재한다. 국외에는 레드햇(Redhat), 데비안(Debian), 우분투(Ubuntu), 수세(SUSE) 등이 있고, 국내에는 한컴리눅스, SULinux 등이 있다.
 		
+---
 ### 리눅스 주요개념과 명령어
 0. 기본 명령어
 	1. 종료 
@@ -83,7 +83,7 @@
 		- 실습 명령어
 			- mount 명령어로 현재 마운트 장치 확인
 			- umount /dev/(장치명) 으로 해당장치 연결 해제
-		
+---		
 1. 사용자와 그룹
 	1. 개념
 		* 리눅스는 멀티유저 시스템으로, 사용자의 권한을 제어 및 관리할 수 있다.
@@ -94,9 +94,25 @@
 			* root:$1$9L2L0oTwd:12751:0:99999:7 : : :
 	3. 관련 명령어
 		* groups / groupadd / groupmod / groupdel / gpasswd
-		* useradd / usermod / userdel 
-		* passwd / change 
+		* useradd : 사용자 생성시 /etc/skel 디렉토리의 내용을 기반으로 사용자 파일들이 자동 생성된다.
+		* usermod / userdel 
+		* passwd / change
+		* su - 사용자명 : 사용자전환, - 입력 시 해당 사용자의 초기화 파일 적용
+		* who : 접속중인 사용자 확인
+		* last : 로그인 내역, 시스템 부팅 내역 확인 ( 내부적으로 /var/log/wtmp 파일 이용함 )
+	
+	4. 시스템 사용자
+		- root / bin ( 구동파일 관리 ) / daemon / adm (로깅관리) / lp ( 프린트 ) / gdm (gnome 관리 계정)
+		
+	5. PAM 모듈
+		1. 개요 : Pluggable한 계정,인증,세션,암화 관리 모듈 모음.
+		2. 특징
+			* 시스템에 공통적인 인증방법 제공가능
+			* 필요한 모듈만 부분적으로 설치 가능
+		3. 모듈 구조
+		
 
+---
 2. 파일 / 디렉토리
 	1. 파일 및 디렉토리란
 		* 리눅스의 모든 것은 파일로 관리된다. ( 장치, 네트워크 소켓, 일반 파일 등 )
