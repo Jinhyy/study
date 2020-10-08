@@ -26,7 +26,7 @@
 
 ## 리눅스
 1. 리눅스의 디렉토리 구조
-> <a href="#"><img src="https://www.google.com/url?sa=i&url=http%3A%2F%2Fm.blog.naver.com%2Fhenry_23%2F20143047303&psig=AOvVaw2yhmaP7CVxK2xCHueXDZvE&ust=1600825769968000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDG4-3S--sCFQAAAAAdAAAAABAD"></a>
+> <a href="#"><img src="https://raw.githubusercontent.com/lee-seul/lee-seul.github.com/master/static/img/_posts/linux_directory_structure.png"></a>
 	
 2. 정의
 	* 유닉스 기반 ( POSIX 표준 ) 오픈소스 운영체제
@@ -44,7 +44,6 @@
 	5. 뛰어난 이식성
 		*  리눅스는 약간의 어셈브리와 대부분의 C언어로 작성되어 있다. C를 컴파일 할 수 있으며, 어셈블리 부분만 새롭게 만들고 C부분을 다시 컴파일 함으로써 쉽게 다른 시스템에 이식 할 수 있다.
 	6. 유연성과 확장성
-
 		*  리눅스는 상업용 유닉스(UNIX)의 모든 특성을 가지며 유닉스의 표준인 포직스(POSIX)를 준수하고 있다. 커널, 장치드라이버, 라이브러리, 응용프로그램, 개발도구 등 리눅스의 원시코드를 쉽게 접할 수 있다.
 	7. 뛰어난 안전성과 보안성
 		*  리눅스는 커널 소스가 공개되어 있어 Windows와 같은 폐쇄형 운영체제에 비해 보안상의 취약점이 쉽게 노출된 가능성은 있으나, 공개용 소프트웨어를 지지하는 수많은 전문 프로그래머들이 상용 운영체제보다 빠르게 오류 수정과 보안 관련된 패치를 발표하고 있다.
@@ -55,6 +54,7 @@
 	10. 다양한 배포판의 존재
 		*  리눅스는 서버, 개발용, PC용 등 다양한 목적으로 사용 가능하고, 이에 따른 다양한 배포판이 존재한다. 국외에는 레드햇(Redhat), 데비안(Debian), 우분투(Ubuntu), 수세(SUSE) 등이 있고, 국내에는 한컴리눅스, SULinux 등이 있다.
 		
+---
 ### 리눅스 주요개념과 명령어
 0. 기본 명령어
 	1. 종료 
@@ -65,11 +65,13 @@
 		- logout / exit
 	4. 가상 콘솔 전환
 		- CTRL + ALT + F1 ~ F6
-	5. 런레벨
+		
+	5. 런레벨 ( centos 7 이전 버전의 리눅스 부팅 환경 관련 개념 )
 		- 개요     : 시스템이 가동되는 방법, init 명령어 뒤에 인자로 사용한다. ( init 6 재부팅수행 )
-		- 종류     : 0 종료 / 1 복구모드 / 2~4 Multi-user(텍스트모드) / 5 Graphical / 6 Reboot
+		- 종류     : 0 종료 / 1 복구모드 / 2~3 Multi-user(텍스트모드) / 4 사용X / 5 Graphical / 6 Reboot
 		- 관련파일 : /lib/systemd/system/runlevel?.target (런레벨 목록),  /etc/systemd/system/default.target ( 현재 시스템 런레벨 )
-	
+		- 관련 명령어 : init
+
 	6. 에디터 ( vi )
 		- 행 이동   : gg ( 첫째 ) / G ( 끝 )
 		- 다음 화면 : ^ ( 첫 ) / $ ( 끝 )
@@ -83,7 +85,7 @@
 		- 실습 명령어
 			- mount 명령어로 현재 마운트 장치 확인
 			- umount /dev/(장치명) 으로 해당장치 연결 해제
-		
+---		
 1. 사용자와 그룹
 	1. 개념
 		* 리눅스는 멀티유저 시스템으로, 사용자의 권한을 제어 및 관리할 수 있다.
@@ -94,9 +96,29 @@
 			* root:$1$9L2L0oTwd:12751:0:99999:7 : : :
 	3. 관련 명령어
 		* groups / groupadd / groupmod / groupdel / gpasswd
-		* useradd / usermod / userdel 
-		* passwd / change 
-
+		* useradd : 사용자 생성시 /etc/skel 디렉토리의 내용을 기반으로 사용자 파일들이 자동 생성된다.
+		* usermod / userdel 
+		* passwd / change
+		* su - 사용자명 : 사용자전환, - 입력 시 해당 사용자의 초기화 파일 적용
+		* who : 접속중인 사용자 확인
+		* last : 로그인 내역, 시스템 부팅 내역 확인 ( 내부적으로 /var/log/wtmp 파일 이용함 )
+	
+	4. 시스템 사용자
+		- root / bin ( 구동파일 관리 ) / daemon / adm (로깅관리) / lp ( 프린트 ) / gdm (gnome 관리 계정)
+		
+	5. PAM 모듈
+		1. 개요 : Pluggable한 계정,인증,세션,암화 관리 모듈 모음.
+		2. 특징
+			* 시스템에 공통적인 인증방법 제공가능
+			* 필요한 모듈만 부분적으로 설치 가능
+		3. PAM 설정파일 구성요소
+			1. module_type : auth (인증) / account(계정관리) / password / session ( 인증 전후 수행되어야할 작업지정 ) 
+			2. config_flag : required / requsite / sufficient ( 이모듈만 성공하면 OK ) / optional / include
+			3. Module_path : /usr/lib64/security 내 사용할 모듈이름 지정
+			4. Module_argument : 모듈에 전달하는 매개변수값, debug(시스템로그에 디버그정보 저장), no_warn(경고메시지 보내지않음)
+		4. PAM 관련 파일 : /etc/pam.d/su, pwd, sshd
+		
+---
 2. 파일 / 디렉토리
 	1. 파일 및 디렉토리란
 		* 리눅스의 모든 것은 파일로 관리된다. ( 장치, 네트워크 소켓, 일반 파일 등 )
@@ -183,7 +205,17 @@
 ***
 	3. 파일 압축 & 해제		
 	4. 파일 위치 검색
-	5. 시스템 설정
+	
+	---
+	5. 시스템 설정 ( systemd )
+		- 개요
+			- unit이라는 구성요소로 전체 시스템을 시작하고 관리하는 프로세스 /  
+			- systemd는 관리대상의 이름을 '서비스이름.유닛종류' 형태로 관리
+		- 유닛의 종류
+			> <a href="#"><img src="https://blog.kakaocdn.net/dn/bBykuV/btqxPSbTLkF/nUKxCDHk0GwsRf42IkHVF1/img.png"></a>
+		- 주요 유닛
+			- atd.service : 예약 작업
+			- get-default : 부팅 모드 설정	
 	6. CRON & AT
 
 ***
@@ -204,6 +236,7 @@
 		- ifup ( 장치가동) / ifdown (장치중지) / ifconfig ( 장치확인 ) [ 네트워크 장치명 ]
 		- nslookup : DNS 서버 작동 확인
 		- ping IP/URL : 해당 IP/URL의 네트워크 응답 확인
+		- route : 외부 대역과 통신 시 필요한 게이트웨이 정보를 확인 및 설정
 	
 	4. 주요 파일
 		- /etc/sysconfig/network : 네트워크 기본 정보 및 네트워크 사용여부 확인
@@ -248,6 +281,15 @@
 
 ***
 
-		
-	
-
+10. 리눅스 로그
+	1. 종류
+	> <a href="#"><img src="https://11q.kr/g5s/data/editor/1905/thumb-3232235521_1556728625.2615_800x673.png"></a>
+	2. rsyslog
+		1. 개요 : 시스템로그를 관리하는 서비스
+		2. 관련파일 : /etc/rsyslog.conf
+		3. syslog 파일 형식
+			- [Facility].[Level] 	[Action]
+				- Facility : 어떤 것들을 로그로 남길지 설정 ( kern, user, mail, daemon, auth, syslog, cron, ... )
+				- Level    : 로그레벨 설정 ( emerge, alert, crit, err, warning, ... )
+				- Action   : 어디에 저장할지 ( ex: /var/log/cron )
+				
