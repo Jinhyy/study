@@ -1,5 +1,22 @@
 # 네트워크 
 
+# IP 프로토콜
+1. 개요
+    - 논리적 주소를 기반으로 전송경로를 결정하는 프로토콜
+    - 비연결형, 패킷 분할/병합 / 데이터 정합성 미보장(TCP에서 보장)
+    
+2. IP 프로토콜 구조
+    > <a href="#"><img src="https://t1.daumcdn.net/cfile/tistory/211CF14E56C96D411A"></a>
+    - 총 20 ~ 60byte ( 보통 20byte, 옵션에 따라 40byte 연장가능 ).
+    - IHL( 4 bit ) : ( 헤더의 총길이 / 4 )
+    - TOTAL LENGTH ( 16 bit ): ( 헤더 + Payload ) 총 길이.
+    - Identification + Ip Flags + Fragement Offset ( 32 bit ) : 쪼개져 전송된 데이터를 재조립할 때 사용하는 헤더
+        - ID값 / 데이터 분할 여부 (M 이면 분할된 데이터 의미) / 데이터의 순서
+    - TTL ( 8 bit, TIME TO LIVE ) : 데이터 전송경로를 못찾거나, 시간이 너무 오래 걸릴 때 소멸시키기 위한 장치.
+        - 장비를 거칠 때 마다 1 씩 감소된다.
+        - 운영체제 마다 설정하는 값이 틀리다. ( 윈도우 128, 리눅스 64 )
+    - Sourse/Destination Address (각 16bit) : 송, 수신 ip주소
+    
 # TCP 프로토콜
 1. TCP 프로토콜의 구조
     > <a href="#"><img src="http://www.ktword.co.kr/img_data/1889_1.JPG"></a>
