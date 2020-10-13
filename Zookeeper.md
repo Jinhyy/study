@@ -52,8 +52,7 @@
 
 - Zookeeper의 zNode
   > <a href="#"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbqFEX5%2Fbtqz9I6HGPX%2FP4zJEh2yOx1Aphg4knRTOK%2Fimg.png"></a>
-  1. STAT
-    - zNode 메타데이터 제공.
+  1. STAT, zNode 메타데이터 제공.
       1. czxid    : znode를 생성한 트랜잭션의 id
       2. mzxid    : znode를 마지막으로 수정 트랜잭션의 id
       3. ctime    : znode가 생성됐을 때의 시스템 시간
@@ -65,21 +64,18 @@
       9. dataLength : data의 길이, 최대 1MB
       10. numChildren : 자식 node의 수
 
-  2. ACL(Action control list) 제공
-    - zNode 조작 권한 플래그
+  2. ACL(Action control list), zNode 조작 권한 플래그 제공
       1. CREATE, DELETE : zNode가 자식노드를 생성 혹은 삭제할 수 있는 권한
       2. READ           : zNode에 data를 읽고 자식들의 목록을 읽을 수 있는 권한.
       3. WRITE          : zNode에 data를 쓸 수 있는 권한.
       4. ADMIN          : ACL플래그를 설정할 수 있는 권한.
       
-  3. SCHEME 제공
-    - zNode 접근/인가 권한 플래그
+  3. SCHEME 제공, zNode 접근/인가 권한 플래그
       1. WORLD  : 모든 사용자 접근가능.
       2. AUTH   : 인증된 세션만 접근 가능.
       3. DIGEST : 허용된 id/password 등으로 만들어진 임의의 Hash값만 허용.
       4. HOST   : 허용된 Host만
       5. IP     : 허용된 IP만
-
     > 참고: https://engkimbs.tistory.com/660 [새로비]
     
   4. 여러 종류의 zNode 제공
@@ -88,3 +84,22 @@
     - Sequence Node   : 노드를 생성할때 자동으로 sequence 번호가 붙는 노드이다. 주로 분산락을 구현하는데 이용된다.
 
 ---
+## Zookeeper Config
+```
+tickTime=2000              # tick 단위 시간을 설정, milliseconds 단위. 2초로 설정됨  
+dataDir=/var/lib/zookeeper # 주키퍼의 상태, 스냅션, 트랜잭션 로그들을 저장하고 업데이트하는 디렉토리의 위치를 지
+clientPort=2181            # 클라이언트 연결을 감지하는 포트의 번호 
+initLimit=5                # 처음 주키퍼의 follower가 leader와의 연결 시도시 가지는 tick 제한 횟수. tick 제한 횟수가 넘으면 timeout. 10초로 설정
+syncLimit=2                # follower가 leader와 연결된 후, 계속 ensemble 안에서 leader와 동기화되기 위한 tick 제한 횟수. tick 제한 횟수가 넘으면 timeout 4초로 설정
+
+server.1=zoo1:2888:3888    
+server.2=zoo2:2888:3888    
+server.3=zoo3:2888:3888    
+# Zookeeper 가 ensemble을 이루기 위한 서버의 정보를 기재, 2888은 동기화를 위한 포트, 3888은 클러스터 구성 시, leader를 선출하기 위한 포트
+# 여기서 서버의 id를 dataDir에 설정 필요.
+[ex]
+$ echo 1 > /var/lib/zookeeper/zoo1/myid
+$ echo 2 > /var/lib/zookeeper/zoo2/myid
+$ echo 3 > /var/lib/zookeeper/zoo3/myid  
+```
+> 출처: https://engkimbs.tistory.com/560?category=745941 [새로비]
