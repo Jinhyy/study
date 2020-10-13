@@ -195,8 +195,34 @@ consumer.assign(Arrays.asList(p0, p1));
 consumer.seek(p0, offset1);
 consumer.seek(p1, offset2);
 ```
+---
+## 카프카 메커니즘
+---
+    1. 주키퍼 내 카프카 관련 zNode
+    <table style="border-collapse: collapse; width: 100%;" border="1"><tbody><tr><td>/kafka-main/controller</td><td>카프카 클러스터의 컨트롤러 정보가 저장됨</td></tr><tr><td>/kafka-main/brokers</td><td>브로커 ID 정보는 /brokers/ids에 토픽 정보는 /brokers/topics에 저장됨</td></tr><tr><td>/kafka-main/config</td><td>토픽의 설정 정보가 저장됨</td></tr><tr><td>/kafka-main/consumers</td><td>컨슈머의 파티션 오프셋 정보가 저장됨<i>(카프카 버전 0.8 까지만 존재함. 0.9 부터는 __consumer_offsets라는 토픽에 저장됨)</i></td></tr></tbody></table>
+    
+    2. 주키퍼를 이용해 브로커를 관리하는 흐름
+        - 모든 카프카 브로커는 고유 식별자(ID)를 가짐
+        - 카프카 브로커는 시작될 때 마다 주키퍼의 /brokers/ids에 임시 노드로 자신의 ID를 등록함
+        - 만일 동일한 ID로 브로커를 시작하려고 하면 에러 발생함(ID는 브로커의 구성 파일에서 설정되거나 자동으로 생성됨)
+        - 브로커가 추가 혹은 삭제되거나 주키퍼와의 연결이 끊어지면 /brokers/ids에 등록한 임시노드는 자동으로 삭제됨
+        - 주키퍼에서 노드가 삭제될 때 watch 기능을 통해 카프카 컴포넌트들은 이를 감지 할 수 있음(리플리카 내역을 통해 중단된 브로커 정보들을 다시 이어갈 수 있음)
+    
+    3. 컨트롤러
+        - 카프카 브로커 중 하나이다
+        - 파티션 리더를 선출하는 책임이 있다
+        - 클러스터에서 시작하는 첫 번째 브로커가 컨트롤러가 된다
 
+    4. 컨트톨러가 선정되는 방법
+        - 클러스터에서 시작하는 첫 번째 브로커는 /controller에 임시노드를 생성.
+        - 컨트롤러가 이미 존재할 경우, 컨트롤러가 아닌 브로커들은 /controller 노드에 watch 기능을 걸어 노드의 변경을 감지 한다.
+
+    5. 컨트롤러 fail-over
+        - 컨트롤러 브로커가 중단되거나 주키퍼와 연결이 끊어지면 /controller에 생성한 임시노드가 삭제 됨
+        - /controller에 watch를 걸었던 다른 브로커들은 이 사실을 알게 되고 /controller에 임시노드 생성을 시도하게 됨
+        - 시도에 성공한 친구가 컨트롤러가 되고, 시도에 실패한 친구들은 다시 새로운 controller 노드로 watch를 설정 함
+        - 이 때, controller 노드의 세대 번호(epoch)를 함께 저장하게 된다. 따라서 변경 전의 컨트롤러와 혼동되지 않으며, 이전 세대 번호로 된 컨트롤러 메세지를 받으면 무시한다. 
 ---
-# 카프카 스트림즈
+## 카프카 스트림즈
 ---
-## 
+ 
