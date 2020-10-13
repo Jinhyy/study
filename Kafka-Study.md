@@ -1,4 +1,4 @@
-#Kafka 개요 및 
+# Kafka
 ## 카프카의 탄생배경
 
 -   기존 end-to-end 연결 방식의 아키텍처의 문제점
@@ -9,7 +9,7 @@
         -   프로듀서와 컨슈머의 분리
         -   메시징 시스템과 같이 영구 메시지 데이터를 여러 컨슈머에게 허용
         -   높은 처리량을 위한 메시지 최적화
-        -   데이터가 증가함에 따라 스케일 아웃이 가능하도록 한다.
+        -   데이터가 증가함에 따라 스케일 아웃이 가능하도록 한다. ( 주키퍼 이용 )
     > <a href="#"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fdm1kl4%2FbtqAavK4BAR%2FEKvMKV4xYnbkDkSki9gV80%2Fimg.png"></a>
 
 ---
@@ -41,25 +41,6 @@
       -   간편하고 무중단 스케일아웃(6장에서 자세히 다룸)
   -   배치 처리
       -   카프카에서는 작은 I/O가 빈번하게 일어나기 때문에 이러한 I/O들을 묶어 배치로 처리하는 방식을 취한다.(ex: 메시지 4개를 모은 후 한번만 I/O 작업을 한다.)
-
----
-
-## Cooridation System. ( Zookeeper )
-- 분산 시스템 상의 Coordinater의 필요성 및 역할
-  1. 분산된 시스템간의 정보 공유
-  2. 클러스터내 시스템 헬스 체크
-  3. 분산 시스템 간 동기화를 위한 락(lock) 처리
-
-- 대표적인 Coordinater Zookeeper의 특징
-  > <a href="#"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbqFEX5%2Fbtqz9I6HGPX%2FP4zJEh2yOx1Aphg4knRTOK%2Fimg.png"></a>
-  1. 디렉토리 구조기반으로 znode라는 Key-Value 형태의 데이타 저장 객체를 제공
-  2. 해당 zNode에 데이터를 넣고 빼는 API를 제공
-  3. 여러 종류의 zNode 제공
-    - Persistent Node : 노드에 데이타를 저장하면 일부러 삭제하지 않는 이상 삭제되지 않고 영구히 저장된다.
-    - Ephemeral Node  : 노드를 생성한 클라이언트의 세션이 연결되어 있을 경우만 유효하다. 즉 클라이언트 연결이 끊어지는 순간 삭제 된다. 이를 통해서 클라이언트가 연결이 되어 있는지 아닌지를 판단하는데 사용할 수 있다. (클러스터를 구성할때 클러스터내에 서버가 들어오면, 이 Ephemeral Node로 등록하면 된다.) 
-    - Sequence Node   : 노드를 생성할때 자동으로 sequence 번호가 붙는 노드이다. 주로 분산락을 구현하는데 이용된다.
-
----
 
 ## 카프카 데이터 모델
 
@@ -214,3 +195,8 @@ consumer.assign(Arrays.asList(p0, p1));
 consumer.seek(p0, offset1);
 consumer.seek(p1, offset2);
 ```
+
+---
+# 카프카 스트림즈
+---
+## 
