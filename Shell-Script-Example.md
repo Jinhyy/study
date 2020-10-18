@@ -40,6 +40,9 @@ then
 fi
 ```
 ## 프로세스 관련
+1. Top명령어
+
+2. nice명령어
 ## 디렉토리 관련
 1. 사용량 10% 이상의 디렉토리 출력
 ```shell script
@@ -57,4 +60,5 @@ do
         fi
         cnt=`expr $cnt + 1`
 done
+
 
