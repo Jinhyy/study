@@ -1,5 +1,10 @@
 # Shell Script 예제
 
+## 프로세스 관련
+1. 프로세스 우선순위 가장 높게 지정하여 실행
+nice -n 20 ./important-process.sh > result.out
+
+
 ## Application 관련
 1. APP 로그파일에서 ERROR 로그 저장
 ```shell script
