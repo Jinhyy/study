@@ -74,6 +74,21 @@
         - cut -c1-3 파일명 : 해당 파일의 문자열들에서 1~3번째 문자열 리턴.
         - cut -d: -f1-4 파일명 : 해당 파일 문자열에서 delimeter로 ':'을 사용하여, 1~4번째 문자열만 리턴.
         
+---
+## 정규표현식과 검색도구
+1. 정규표현식 - regexr.com
+    - 개요 : 다른문자열을 검색하거나 치환할 목적으로 고안된 특수 문자열
+    - 주요 특수문자
+        > <a href="#"><img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F99BC194C5B650B1031"></a>
+    - 주요 예제
+        - 핸드폰 번호 : (010|019|011)-\d{3,4}-\d{4}
+        - 이메일 주소 : \w+@\w+\.\w+(\.\w+)?
+        - css color 패턴 : #[0-9a-fA-F]+
+        - IPv4 패턴 : [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.
+
+2. grep 명령어
+    - 개요 : 문자열 검색 명령어
+    - 사용법 : grep [options] 찾을문자열 찾을파일
 ### System Montiroing / DevOps
 
 
