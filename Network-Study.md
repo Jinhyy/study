@@ -45,6 +45,7 @@
         
 2. TCP 통신과정
     1. 연결 생성
+        > <a href="#"><img src="https://github.com/WeareSoft/tech-interview/blob/master/contents/images/3-way-handshaking.png"></a>
         1. SYN: 클라이언트가 서버에게 SYN 메시지를 보낸다. 이 메시지에 포함된 시퀀스 번호는 클라이언트가 임의로 설정한 값 A.
         2. SYN-ACK: 서버가 클라이언트에게 SYN-ACK 메시지로 응답한다. 이 메시지에 포함된 시퀀스 번호는 서버가 임의로 설정한 값 B, 응답 번호는 (A + 1).
         3. ACK: 클라이언트가 서버에게 ACK 메시지를 보낸다. 이 메시지에 포함된 시퀀스 번호는 (A + 1), 응답 번호는 (B + 1).
@@ -55,6 +56,7 @@
         3. 서버 응답 데이터 받은 클라이언트 측 : 플래그 ( ACK ) / 시퀀스 = ( 받은 응답번호 + 받은 데이터 크기 ), 응답번호 = 받은 시퀀스 번호 
     
     3. 연결 해제
+        > <a href="#"><img src="https://github.com/WeareSoft/tech-interview/blob/master/contents/images/4-way-handshaking.png"></a>
         1. [Client(FIN_WAIT1) -> Server(CLOSE_WAIT)] FIN+ACK
         2. [Client(FIN_WATI2) <- Server(CLOSE_WAIT)] ACK
         3. [Client(TIME_WAIT) <- Server(LAST_ACK)] FIN+ACK
