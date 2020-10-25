@@ -125,3 +125,10 @@
     2. 항목 : Content-Type, Content-Language, Content-Dispoistion ( 응답 Body를 어떤식으로 표시 할 것인가 )
     3. 요청 : Host(1.1에서 필수), User-Agent, Cookie, Referer( 직전에 머물렀던 웹링크 주소 ), Authorization, Origin ( 요청 시작 주소 )
     4. 응답 : Server, Set-Cookie ( 서버측에서 클라이언트에게 세션쿠키 정보 설정 ), Expires ( 리소스 유효기간 ), Allow ( 허용메소드 리스트 ), Access-Control-Allow-Origin( 서버측에서 이곳에 프론트단 주소를 적어야 CORS 에러 발생 X )
+    
+5. HTTP 2.0 특징
+- Multiplexed Stream :한 커넥션으로 동시에 여러개의 메시지를 주고 받을 수 있음. (응답도 순서에 상관없이 받는다.) 
+- HTTP/1.1의 Keep-Alive, Pipelining 의 개선
+- Stream Prioritization :특정 자원의 수신이 늦어질 경우, 의존성있는 자원도 렌더링이 늦어지는 문제가 발생할 수 있다. 2.0에서 자원간 의존관계를 설정하여 해결할 수 있음.
+- Server Push : 클라이언트의 요청없이도 서버는 자원을 마음대로 보내줄 수 있다.
+- Header Compression : 여러 요청에 대해 중복적으로 전송하는 경우, binary 압축을 통해 성능을 향상시킴
