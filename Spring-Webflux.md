@@ -70,7 +70,8 @@
       
       3. 정리
          - Webflux + 리액티브 리포지토리 / 리액티브 API 호출 / @Async 블로킹 IO
-         
+
+---
 6. Webflux와 관련된 주요 개념
    - 자바8 + 함수형 프로그래밍
    - CompleteableFuture 같은 비동기 작업의 조합,결합에 대해 뛰어난 툴의 사용법
