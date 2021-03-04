@@ -43,12 +43,20 @@
     - 물리적 메모리에 영향을 받음 / 메모리 스왑 발생시 디스크를 사용하게 되므로 성능저하가 발생.
     - 레디스 설정값 내 maxmemory 설정을 하더라도, 실제로 사용되는 메모리값이 이것보다 높을 수 있다.(메모리 파편화 가능성)
     - 실제 메모리 사용량(RSS 값) 및 스왑여부를 모니터링 해야한다.
-    
-  - 
+    - 컬렉션 타입별로 여러가지 메모리 관리를 효율적으로 해주는 인코딩이 존재한다.(ziplist, hashtable, ... https://great-song2.tistory.com/4 참고 )
+  - O(N) 관련 명령어는 주의하자.
+    - Redis는 싱글스레드 이므로, 한번에 하나의 커맨드만 수행이 가능하므로 긴 명령어는 주의하자! ( keys, flushall, flushdb, ... )
+    - keys명령어가 필요할 경우 다가져오지 말고, scan 명령어로 부분적으로 가져오도록 하자. ( 해당명령어 disable 권장 )
+    - 큰 컬렉션의 아이템을 가져와야 할 경우? -> 작은 여러개의 컬렉션으로 만들어 두어야한다.
 
 
-## 3. Redis Collection
+## 4. Redis Replication
+  - Redis는 Async Replication 이다.
+    - Original과 replication lag이 발생가능.
+  - Secondary 인스턴스에서 replicaof or slaveof 명령어로 replication 관계 설정가능하다.
+    - replication 설정 시, original 인스턴스에서 fork 가 발생 ( 햔재 상태의 메모리 스냅샷을 디스크에 저장 후 전달 ) => 주의 필요.
+    - replication 이 너무 많이 설정되어 있을 시, original => replica server로의 정보 전달이 네트워크 대역폭을 넘을수 있으므로 주의.
 
-## 3. Redis 데이터 분산
+## 5. Redis 데이터 분산
 
 ## 3. Redis Failover
