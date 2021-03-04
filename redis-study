@@ -1,0 +1,54 @@
+#Redis
+
+## 1. 개요
+  - In-memory Data Storage / Single Thread (Atomic 보장) / 여러가지 Collection 제공 ( memcached와의 차이)
+  - 활용 예시 : 인증 토큰 저장 / 랭킹 보드 ( sorted set 활용 ) / 유저 별 api limit / job queue, ...
+
+## 2. Redis Collection
+  - 컬렉션 사용시 주의사항
+    - expire 옵션의 경우 컬렉션 내 원소별로 걸리지 않고, 해당 컬렉션 자체로 걸림.
+    - 하나의 컬렉션안에 10000개 원소로 유지하는게 좋음. ( 레디스 성능에 유리 )
+    
+  - Strings
+    - Set <key> value
+    - Get <key> value
+    - key 에 따라, 어디에 분산 저장 될지 결정됨.
+  
+  - List
+    - Lpush/Rpush <key> <원소 목록>
+    - Lpop/Rpop <key>
+    - lragnge <key> <start index> <end index>
+    - BLPOP/BRPOP <key> <timeout seconds> : 블로킹 pop 명령어, pop할 데이터가 없을 경우 최대 <timeout seconds> 만큼 대기한다.
+  
+  - Set
+    - SADD <key> <value>
+    - SMEMBERS <key> : 모든 value 리턴
+    - SISMEMBER <key> <value> : 해당 set에 포함 여부 확인.
+    - sdiff/sunion/sinter <key1> <key2> : key1 <-> key2 차/합/교집합 리턴.
+    
+  - Sorted Sets
+    - 소개
+      - value 중복 허용X / score가 같을시 value 로 sort 처리 됨
+    - 명령어
+      - ZADD <Key> <Score> <Value> : 추가 / 해당 value가 이미 key에 있으면 score 변경됨.
+      - ZRANGE <key> <start index> <end index> : 해당 범위에 속한 값들을 리턴.
+      - zrangebyscore <key> <min> <max> : 스코어범위로 값 리턴.
+  
+  - Hash
+    - 소개
+      - key 하나에 여러개의 field와 value로 구성 / key 하나에 최대 40억개 쌍 저장 가능.
+    
+## 3. Redis 운영
+  - 메모리 관리
+    - 물리적 메모리에 영향을 받음 / 메모리 스왑 발생시 디스크를 사용하게 되므로 성능저하가 발생.
+    - 레디스 설정값 내 maxmemory 설정을 하더라도, 실제로 사용되는 메모리값이 이것보다 높을 수 있다.(메모리 파편화 가능성)
+    - 실제 메모리 사용량(RSS 값) 및 스왑여부를 모니터링 해야한다.
+    
+  - 
+
+
+## 3. Redis Collection
+
+## 3. Redis 데이터 분산
+
+## 3. Redis Failover
